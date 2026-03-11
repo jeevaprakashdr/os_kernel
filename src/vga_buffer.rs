@@ -1,4 +1,4 @@
-use core::fmt;
+use core::{fmt, panic::{self, PanicInfo}};
 
 use spin::Mutex;
 use volatile::Volatile;
