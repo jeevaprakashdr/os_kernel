@@ -1,23 +1,25 @@
 #![no_std]
 #![no_main]
 #![feature(custom_test_frameworks)]
-#![test_runner(crate::test_runner)]
-#![reexport_test_harness_main = "test_main"]
+#![test_runner(os_kernel::test_runner)]
+#![reexport_test_harness_main = "invoke_all_tests"]
 
 use core::panic::PanicInfo;
+use os_kernel::println;
 
 #[unsafe(no_mangle)]
 pub extern "C" fn _start() -> ! {
-    test_main();
+    invoke_all_tests();
 
     loop {}
 }
 
-fn test_runner(_: &[&dyn Fn()]) {
-    unimplemented!();
+#[panic_handler]
+fn panic(info: &PanicInfo) -> ! {
+    os_kernel::test_panic_handler(info)
 }
 
-#[panic_handler]
-fn panic(_: &PanicInfo) -> ! {
-    loop { }
+#[test_case]
+fn test_println() {
+    println!("test_println output");
 }
