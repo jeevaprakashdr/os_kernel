@@ -157,3 +157,28 @@ pub fn _print(args: fmt::Arguments) {
 //     writer.write_string("ello ");
 //     writer.write_string("asdaxdasdasdello \n");
 // }
+
+#[test_case]
+fn test_println_a_line() {
+    println!("simple output from vga buffer")
+}
+
+#[test_case]
+fn test_println_many_lines() {
+    for _ in 0..100 {
+        println!("simple output from vga buffer");
+    }
+}
+
+#[test_case]
+fn test_println_output() {
+    let s = "sample string to be displayed on vga buffer";
+    println!("{}", s);
+
+    for (i, c) in s.chars().enumerate() {
+        let char_in_screen = WRITER.lock().buffer.chars[BUFFER_HEIGHT - 2][i].read();
+        let actual = char::from(char_in_screen.ascii_character);
+        
+        assert_eq!(actual, c);
+    }
+}
