@@ -16,6 +16,12 @@ pub extern "C" fn _start() -> ! {
     
     os_kernel::init();
     
+    fn stack_overflow () {
+        stack_overflow();
+    }
+
+    stack_overflow();
+
     // trigger page fault
     unsafe {
         *(0xdeadbeef as *mut u8) = 43;
