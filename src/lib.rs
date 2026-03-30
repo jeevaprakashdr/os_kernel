@@ -3,7 +3,9 @@
 #![feature(custom_test_frameworks)]
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "invoke_all_tests"]
+#![feature(abi_x86_interrupt)]
 
+pub mod interrupts;
 pub mod serial;
 pub mod vga_buffer;
 
@@ -55,9 +57,14 @@ pub fn exit_qemu(exit_code: QemuExitCode) {
     }
 }
 
+pub fn init() {
+    interrupts::init_idt();
+}
+
 #[cfg(test)]
 #[unsafe(no_mangle)]
 pub extern "C" fn _start() {
+    init();
     invoke_all_tests();
 
     loop { }

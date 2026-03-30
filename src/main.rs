@@ -14,9 +14,12 @@ use core::panic::PanicInfo;
 pub extern "C" fn _start() -> ! {
     println!("Hello world{}", "!");
     
+    os_kernel::init();
+    
     #[cfg(test)]
     invoke_all_tests();
     
+    println!("it did not crash");
     loop {}
 }
 
