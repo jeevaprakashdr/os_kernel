@@ -20,12 +20,7 @@ pub extern "C" fn _start() -> ! {
         stack_overflow();
     }
 
-    stack_overflow();
-
-    // trigger page fault
-    unsafe {
-        *(0xdeadbeef as *mut u8) = 43;
-    };
+    // stack_overflow();
 
     #[cfg(test)]
     invoke_all_tests();
